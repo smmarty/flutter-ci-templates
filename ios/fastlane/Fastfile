@@ -19,14 +19,16 @@ platform :ios do
                match(
                  app_identifier: bundle_id,
                  type: "appstore",
-                 readonly: readonly
+                 readonly: readonly,
+                 git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"])
                )
             end
             if development
                 match(
                  app_identifier: bundle_id,
                  type: "development",
-                 readonly: readonly
+                 readonly: readonly,
+                 git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"])
                 )
             end
         end
@@ -48,15 +50,16 @@ platform :ios do
            match(
              type: "appstore",
              readonly: readonly,
-             output_path: output_path
-
+             output_path: output_path,
+             git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"])
            )
          end
          if development
               match(
                type: "development",
                readonly: readonly,
-               output_path: output_path
+               output_path: output_path,
+               git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"])
               )
          end
     end
@@ -74,12 +77,14 @@ platform :ios do
          match_nuke(
            type: "appstore",
            readonly: false,
+           git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"])
          )
       end
       if development
            match_nuke(
             type: "development",
             readonly: false,
+            git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"])
           )
       end
    end
@@ -95,6 +100,7 @@ platform :ios do
      match(
        type: 'appstore',
        readonly: true,
+       git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"])
      )
    end
 
