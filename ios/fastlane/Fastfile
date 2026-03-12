@@ -43,15 +43,19 @@ platform :ios do
              key_content: ENV["APPSTORE_API_KEY"],
              is_key_content_base64: true
          )
-         match(
-            type: "appstore",
-            app_identifier: ENV["APP_BUNDLE_IDS"],
-            git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
-            readonly: false,
-            safe_remove_certs: true,
-            skip_confirmation: true,
-            force: true
-          )
+         app_bundle_ids = ENV["APP_BUNDLE_IDS"]&.split(',')&.map(&:strip) || []
+         app_bundle_ids = [ENV["APP_BUNDLE_ID"]] if app_bundle_ids.empty?
+         app_bundle_ids.each do |bundle_id|
+              match(
+                     type: "appstore",
+                     app_identifier: bundle_id,
+                     git_basic_authorization: Base64.strict_encode64(ENV["GIT_AUTHORIZATION"]),
+                     readonly: false,
+                     safe_remove_certs: true,
+                     skip_confirmation: true,
+                     force: true
+              )
+         end
    end
 
     desc "Export Certs"
